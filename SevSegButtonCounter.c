@@ -2,31 +2,36 @@
  * File:   newmain.c
  * Author: islam
  *
- * Created on March 27, 2018, 11:45 AM
+ * Created on July 26, 2022, 10:15 AM
  */
 
 #include "config.h"
 
-void main(){
-    char i = 0; 
-    char seg[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7C, 0x07, 0x7F, 0x6F};
-    
-    TRISB = 0;
+void main() {
+
+    char i = 0, seg[10] = {0x3f, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
+ 
     TRISC = 0;
-    LATB = 0x3F;
+    TRISD = 0;
+    TRISB0 = 1;
+
     LATC = 0x3F;
-    TRISD0 = 1;
-    
-    while(1){
-       
-        if(!PORTDbits.RD0){
-           
+    LATD = 0x3F;
+
+    while (1) {
+
+        if (PORTBbits.RB0 == 0) {
+
             __delay_ms(5);
-            i++;
-            if(i > 99)  i = 0;
-            LATB = seg[i / 10];
-            LATC = seg[i % 10];
-            while(PORTDbits.RD0 == 0);
+            while (PORTBbits.RB0 == 0) {
+
+                i++;
+                if (i > 99) i = 0;
+                LATC = seg[i / 10];
+                LATD = seg[i % 10];
+                for(char i = 0; i < 10; i++)
+                    __delay_ms(40);
+            }
             __delay_ms(5);
         }
     }
