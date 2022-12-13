@@ -38,6 +38,6 @@ void main (){
                 LATB = Segment_Map[i/10];
                 __delay_ms(10);
             }
-		}
+	}
     }
 }
